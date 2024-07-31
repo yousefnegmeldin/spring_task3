@@ -5,6 +5,7 @@ import com.example.demo.model.enums.RoomStatus;
 import com.example.demo.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,13 +31,13 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+    public ArrayList<Room> getAllRooms() {
+        return (ArrayList<Room>) roomRepository.findAll();
     }
 
     @Override
-    public List<Room> getReadyRooms() {
-        return this.getAllRooms()
+    public ArrayList<Room> getReadyRooms() {
+        return (ArrayList<Room>) this.getAllRooms()
                 .stream()
                 .filter(r -> r.getStatus() == RoomStatus.READY)
                 .collect(Collectors.toList());

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface ReservationService {
     Optional<Reservation> getReservationById(Long id);
-    void saveReservation(Reservation reservation);
+    Reservation saveReservation(Reservation reservation);
     void cancelReservation(Reservation reservation);
 
 }
