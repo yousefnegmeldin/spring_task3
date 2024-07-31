@@ -2,10 +2,9 @@ package com.example.demo.model;
 
 import com.example.demo.model.enums.RoomStatus;
 import com.example.demo.model.enums.RoomType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Room {
@@ -14,6 +13,13 @@ public class Room {
     private Long id;
     private RoomType type;
     private RoomStatus status;
+
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservations;
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
 
     public Room(){};
 

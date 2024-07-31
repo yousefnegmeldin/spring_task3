@@ -1,4 +1,7 @@
 package com.example.demo.dto;
 
-public record RoomDTO(Long id, String type,String status) {
+import com.example.demo.model.enums.RoomStatus;
+import com.example.demo.model.enums.RoomType;
+
+public record RoomDTO(Long id, RoomType type, RoomStatus status) {
 }

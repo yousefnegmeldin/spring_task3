@@ -1,10 +1,7 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.hibernate.annotations.GeneratedColumn;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -14,6 +11,13 @@ public class User {
     private String name;
     private String email;
     private String phone;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservations;
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
 
     public User(){};
 
