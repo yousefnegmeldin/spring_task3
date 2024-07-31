@@ -4,12 +4,13 @@ import com.example.demo.model.Room;
 import com.example.demo.model.enums.RoomStatus;
 import com.example.demo.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Service
 public class RoomServiceImpl implements RoomService{
 
     private final RoomRepository roomRepository;
@@ -31,16 +32,21 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public ArrayList<Room> getAllRooms() {
-        return (ArrayList<Room>) roomRepository.findAll();
+    public List<Room> getAllRooms() {
+        return roomRepository.findAll();
     }
 
     @Override
     public ArrayList<Room> getReadyRooms() {
-        return (ArrayList<Room>) this.getAllRooms()
-                .stream()
-                .filter(r -> r.getStatus() == RoomStatus.READY)
-                .collect(Collectors.toList());
+        try {
+            return (ArrayList<Room>) this.getAllRooms().stream()
+//                    .filter(r -> r.getStatus().equals(RoomStatus.READY))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error filtering ready rooms: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
+
 
 }

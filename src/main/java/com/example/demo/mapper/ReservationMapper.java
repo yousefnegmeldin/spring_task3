@@ -7,16 +7,15 @@ import com.example.demo.model.enums.ReservationStatus;
 public class ReservationMapper {
 
 
-//    public static Reservation toReservation(ReservationDTO reservationDTO){
-//        if(reservationDTO == null)return null;
-//
-//        return new Reservation(
-//                reservationDTO.userId(),
-//                reservationDTO.roomId(),
-//                reservationDTO.checkInDate(),
-//                reservationDTO.checkOutDate(),
-//                ReservationStatus.PENDING);
-//    }
+    public static Reservation toReservation(ReservationDTO reservationDTO) {
+        if (reservationDTO == null) return null;
+
+        Reservation reservation = new Reservation();
+        reservation.setCheckInDate(reservationDTO.checkInDate());
+        reservation.setCheckOutDate(reservationDTO.checkOutDate());
+        reservation.setStatus(ReservationStatus.PENDING);
+        return reservation;
+    }
 
     public static ReservationDTO toReservationDTO(Reservation reservation){
         if(reservation == null) return null;

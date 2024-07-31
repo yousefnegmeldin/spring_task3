@@ -1,9 +1,15 @@
 package com.example.demo.model.enums;
 
 public enum RoomStatus {
-    READY,
-    CLEANING,
-    BOOKED,
-    UNAVAILABLE,
-    MAINTENANCE
+    READY("READY"),
+    CLEANING("CLEANING"),
+    BOOKED("BOOKED"),
+    UNAVAILABLE("UNAVAILABLE"),
+    MAINTENANCE("MAINTENANCE");
+
+    private String name;
+
+    RoomStatus(String name) {
+        this.name = name;
+    }
 }

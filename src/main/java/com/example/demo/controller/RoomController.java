@@ -34,7 +34,7 @@ public class RoomController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/available")
     public ResponseEntity<ArrayList<Room>> getAvailableRooms(){
          return ResponseEntity.ok().body(roomService.getReadyRooms());
     }

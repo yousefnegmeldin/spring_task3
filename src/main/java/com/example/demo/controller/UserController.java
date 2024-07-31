@@ -25,6 +25,7 @@ public class UserController {
     @PostMapping
     public void createUser(@RequestBody UserDTO user){
         userService.saveUser(UserMapper.toUser(user));
+
     }
 
 
