@@ -1,11 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.model.enums.ReservationStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -13,15 +9,26 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
-    private Long roomId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
+
     private Date checkInDate;
     private Date checkOutDate;
+
+    @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 
-    public Reservation(Long userId, Long roomId, Date checkInDate, Date checkOutDate, ReservationStatus status) {
-        this.userId = userId;
-        this.roomId = roomId;
+    public Reservation() {}
+
+    public Reservation(User user, Room room, Date checkInDate, Date checkOutDate, ReservationStatus status) {
+        this.user = user;
+        this.room = room;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.status = status;
@@ -35,20 +42,20 @@ public class Reservation {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getRoomId() {
-        return roomId;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public Date getCheckInDate() {

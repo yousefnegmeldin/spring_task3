@@ -1,8 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.ReservationDTO;
 import com.example.demo.mapper.ReservationMapper;
 import com.example.demo.model.Reservation;
+import com.example.demo.model.Room;
+import com.example.demo.model.User;
 import com.example.demo.repository.ReservationRepository;
+import com.example.demo.repository.RoomRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -10,10 +15,14 @@ import java.util.Optional;
 public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository reservationRepository;
+    private final UserRepository userRepository;
+    private final RoomRepository roomRepository;
 
     @Autowired
-    public ReservationServiceImpl(ReservationRepository reservationRepository) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository, UserRepository userRepository, RoomRepository roomRepository,) {
         this.reservationRepository = reservationRepository;
+        this.userRepository = userRepository;
+        this.roomRepository = roomRepository;
     }
 
 
@@ -24,6 +33,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation saveReservation(Reservation reservation) {
+        return reservationRepository.save(reservation);
+    }
+
+    public Reservation saveReservation(ReservationDTO reservationDTO) {
+        User user = userRepository.findById(reservationDTO.userId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Room room = roomRepository.findById(reservationDTO.roomId())
+                .orElseThrow(() -> new RuntimeException("Room not found"));
+        Reservation reservation = ReservationMapper.toReservation(reservationDTO);
+        reservation.setUser(user);
+        reservation.setRoom(room);
         return reservationRepository.save(reservation);
     }
 

@@ -8,7 +8,6 @@ import com.example.demo.model.Reservation;
 import com.example.demo.model.Room;
 import com.example.demo.service.ReservationService;
 import com.example.demo.service.RoomService;
-import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class RoomController {
     private final ReservationService reservationService;
 
     @Autowired
-    public RoomController(RoomService roomService, ReservationService reservationService, UserService userService) {
+    public RoomController(RoomService roomService, ReservationService reservationService) {
         this.roomService = roomService;
         this.reservationService = reservationService;
     }
@@ -41,10 +40,12 @@ public class RoomController {
     }
 
     @PostMapping("/book")
-    public ResponseEntity bookRoom(@RequestBody ReservationDTO reservationDTO){
-        reservationService.saveReservation(ReservationMapper.toReservation(reservationDTO));
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Reservation> bookRoom(@RequestBody ReservationDTO reservationDTO){
+        Reservation reservationToBook = reservationService.saveReservation(reservationDTO);
+        return ResponseEntity.ok().body(reservationToBook);
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity cancelReservation(@PathVariable Long roomId){
@@ -56,9 +57,11 @@ public class RoomController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<Reservation> updateReservation(@RequestBody ReservationDTO reservationDTO){
-        Reservation updatedReservation = reservationService.saveReservation(ReservationMapper.toReservation(reservationDTO));
-        return ResponseEntity.ok().body(updatedReservation);
+        Reservation reservationToBook = reservationService.saveReservation(reservationDTO);
+        return ResponseEntity.ok().body(reservationToBook);
+//        Reservation updatedReservation = reservationService.saveReservation(ReservationMapper.toReservation(reservationDTO));
+//        return ResponseEntity.ok().body(updatedReservation);
     }
 }

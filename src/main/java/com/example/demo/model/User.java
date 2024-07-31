@@ -1,7 +1,10 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -12,12 +15,9 @@ public class User {
     private String email;
     private String phone;
 
-    @OneToMany(mappedBy = "user")
-    private List<Reservation> reservations;
 
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Reservation> reservations = new HashSet<>();
 
     public User(){};
 

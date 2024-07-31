@@ -4,7 +4,9 @@ import com.example.demo.model.enums.RoomStatus;
 import com.example.demo.model.enums.RoomType;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Room {
@@ -14,12 +16,8 @@ public class Room {
     private RoomType type;
     private RoomStatus status;
 
-    @OneToMany(mappedBy = "room")
-    private List<Reservation> reservations;
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Reservation> reservations = new HashSet<>();
 
     public Room(){};
 
