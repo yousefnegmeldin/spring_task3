@@ -8,6 +8,7 @@ import com.example.demo.mapper.RoomMapper;
 import com.example.demo.model.Reservation;
 import com.example.demo.model.Room;
 import com.example.demo.model.enums.ReservationStatus;
+import com.example.demo.model.enums.RoomType;
 import com.example.demo.service.ReservationService;
 import com.example.demo.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,14 @@ public class RoomController {
 
     @GetMapping("/available")
     public ResponseEntity<List<Room>> getAvailableRooms(){
-         return ResponseEntity.ok().body(roomService.getReadyRooms());
+        return ResponseEntity.ok().body(roomService.getReadyRooms());
     }
+
+    @GetMapping("/{type}")
+    public ResponseEntity<List<Room>> getRoomByFilter(@PathVariable RoomType type){
+        return ResponseEntity.ok().body(roomService.getRoomByType(type));
+    }
+
 
     @PostMapping("/book")
     public ResponseEntity<?> bookRoom(@RequestBody ReservationDTO reservationDTO) {
@@ -54,7 +61,6 @@ public class RoomController {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 
     @DeleteMapping("/{roomId}")
