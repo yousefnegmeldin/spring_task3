@@ -1,6 +1,12 @@
 package com.example.demo.dto;
 
-import java.util.Date;
+import com.example.demo.model.enums.ReservationStatus;
 
-public record ReservationDTO(Long roomId, Long userId, Date checkInDate, Date checkOutDate) {
+import java.time.LocalDate;
+
+public record ReservationDTO(Long roomId,
+                             Long userId,
+                             LocalDate checkInDate,
+                             LocalDate checkOutDate,
+                             ReservationStatus status) {
 }

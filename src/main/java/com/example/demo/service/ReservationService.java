@@ -9,5 +9,6 @@ public interface ReservationService {
     Optional<Reservation> getReservationById(Long id);
     Reservation saveReservation(ReservationDTO reservationDTO);
     void cancelReservation(Reservation reservation);
+    Reservation updateReservation(ReservationDTO reservationDTO);
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Room;
 import com.example.demo.model.enums.RoomStatus;
+import com.example.demo.model.enums.RoomType;
 import com.example.demo.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,10 +38,15 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public ArrayList<Room> getReadyRooms() {
+    public List<Room> getRoomByType(RoomType roomType) {
+        return this.getAllRooms().stream().filter(r -> r.getType() == roomType).toList();
+    }
+
+    @Override
+    public List<Room> getReadyRooms() {
         try {
-            return (ArrayList<Room>) this.getAllRooms().stream()
-//                    .filter(r -> r.getStatus().equals(RoomStatus.READY))
+            return  this.getAllRooms().stream()
+                    .filter(r -> r.getStatus() == RoomStatus.READY )
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Error filtering ready rooms: " + e.getMessage());

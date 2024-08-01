@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import com.example.demo.model.enums.ReservationStatus;
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Reservation {
@@ -18,15 +18,15 @@ public class Reservation {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    private Date checkInDate;
-    private Date checkOutDate;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
 
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 
     public Reservation() {}
 
-    public Reservation(User user, Room room, Date checkInDate, Date checkOutDate, ReservationStatus status) {
+    public Reservation(User user, Room room, LocalDate checkInDate, LocalDate checkOutDate, ReservationStatus status) {
         this.user = user;
         this.room = room;
         this.checkInDate = checkInDate;
@@ -58,19 +58,19 @@ public class Reservation {
         this.room = room;
     }
 
-    public Date getCheckInDate() {
+    public LocalDate getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(Date checkInDate) {
+    public void setCheckInDate(LocalDate checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public Date getCheckOutDate() {
+    public LocalDate getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(Date checkOutDate) {
+    public void setCheckOutDate(LocalDate checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 

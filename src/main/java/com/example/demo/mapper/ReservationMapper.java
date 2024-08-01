@@ -13,7 +13,7 @@ public class ReservationMapper {
         Reservation reservation = new Reservation();
         reservation.setCheckInDate(reservationDTO.checkInDate());
         reservation.setCheckOutDate(reservationDTO.checkOutDate());
-        reservation.setStatus(ReservationStatus.PENDING);
+        reservation.setStatus(reservationDTO.status());
         return reservation;
     }
 
@@ -24,7 +24,8 @@ public class ReservationMapper {
                 reservation.getRoom().getId(),
                 reservation.getUser().getId(),
                 reservation.getCheckInDate(),
-                reservation.getCheckOutDate()
+                reservation.getCheckOutDate(),
+                reservation.getStatus()
         );
     }
 }
