@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.UserDTO;
+import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import com.example.demo.mapper.UserMapper;
@@ -31,9 +32,7 @@ public class UserController {
 
     @GetMapping("/{email}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String email){
-        Optional<User> user = userService.getUserByEmail(email);
-        return user
-                .map(value -> ResponseEntity.ok().body(UserMapper.toUserDTO(value)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        User user = userService.getUserByEmail(email);
+        return ResponseEntity.ok().body(UserMapper.toUserDTO(user));
     }
 }

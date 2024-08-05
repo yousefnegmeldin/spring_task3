@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.model.User;
 
 import java.util.Optional;
@@ -7,5 +8,5 @@ import java.util.Optional;
 public interface UserService {
     void saveUser(User user);
     Optional<User> getUserById(Long id);
-    Optional<User> getUserByEmail(String email);
+    User getUserByEmail(String email) throws UserNotFoundException;
 }

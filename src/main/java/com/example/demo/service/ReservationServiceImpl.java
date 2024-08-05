@@ -17,6 +17,11 @@ import java.util.Optional;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
+    String userNotFoundMsg = "User not found";
+    String roomNotFoundMsg = "Room not found";
+    String reservationExistsMsg = "Reservation already exists with same room id and user";
+    String reservationNotFound = "Reservation not found";
+
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
@@ -37,13 +42,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     public Reservation saveReservation(ReservationDTO reservationDTO) {
         User user = userRepository.findById(reservationDTO.userId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(userNotFoundMsg));
         Room room = roomRepository.findById(reservationDTO.roomId())
-                .orElseThrow(() -> new RuntimeException("Room not found"));
+                .orElseThrow(() -> new RuntimeException(roomNotFoundMsg));
         Optional<Reservation> reservationCheck = reservationRepository
                 .findByUserIdAndRoomId(reservationDTO.userId(), reservationDTO.roomId());
         if (reservationCheck.isPresent()) {
-            throw new ReservationAlreadyExistsException("Reservation already made with same room id and user");
+            throw new ReservationAlreadyExistsException(reservationExistsMsg);
         }
 
         Reservation reservation = ReservationMapper.toReservation(reservationDTO);
@@ -58,11 +63,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     public Reservation updateReservation(ReservationDTO reservationDTO) {
         User user = userRepository.findById(reservationDTO.userId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(userNotFoundMsg));
         Room room = roomRepository.findById(reservationDTO.roomId())
-                .orElseThrow(() -> new RuntimeException("Room not found"));
+                .orElseThrow(() -> new RuntimeException(roomNotFoundMsg));
         Reservation reservation = reservationRepository.findByUserIdAndRoomId(reservationDTO.userId(), reservationDTO.roomId())
-                .orElseThrow(() -> new RuntimeException("Reservation not found"));
+                .orElseThrow(() -> new RuntimeException(reservationNotFound));
 
         reservation.setStatus(reservationDTO.status() != null ? reservationDTO.status() : reservation.getStatus());
         reservation.setCheckInDate(reservationDTO.checkInDate());

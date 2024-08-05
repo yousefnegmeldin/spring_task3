@@ -34,7 +34,7 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity createRoom(@RequestBody RoomDTO room){
+    public ResponseEntity<?> createRoom(@RequestBody RoomDTO room){
         roomService.saveRoom(RoomMapper.toRoom(room));
         return ResponseEntity.ok().build();
     }
@@ -52,19 +52,13 @@ public class RoomController {
 
     @PostMapping("/book")
     public ResponseEntity<?> bookRoom(@RequestBody ReservationDTO reservationDTO) {
-        try {
-            Reservation reservationToBook = reservationService.saveReservation(reservationDTO);
-            return ResponseEntity.ok().body(reservationToBook);
-        } catch (ReservationAlreadyExistsException exception) {
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Reservation reservationToBook = reservationService.saveReservation(reservationDTO);
+        return ResponseEntity.ok().body(ReservationMapper.toReservationDTO(reservationToBook));
     }
 
 
     @DeleteMapping("/{roomId}")
-    public ResponseEntity cancelReservation(@PathVariable Long roomId){
+    public ResponseEntity<?> cancelReservation(@PathVariable Long roomId){
         Optional<Reservation> reservation = reservationService.getReservationById(roomId);
         if(reservation.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -74,10 +68,8 @@ public class RoomController {
     }
 
     @PutMapping
-    public ResponseEntity<Reservation> updateReservation(@RequestBody ReservationDTO reservationDTO){
+    public ResponseEntity<ReservationDTO> updateReservation(@RequestBody ReservationDTO reservationDTO){
         Reservation reservationToBook = reservationService.updateReservation(reservationDTO);
-        return ResponseEntity.ok().body(reservationToBook);
-//        Reservation updatedReservation = reservationService.saveReservation(ReservationMapper.toReservation(reservationDTO));
-//        return ResponseEntity.ok().body(updatedReservation);
+        return ResponseEntity.ok().body(ReservationMapper.toReservationDTO(reservationToBook));
     }
 }
